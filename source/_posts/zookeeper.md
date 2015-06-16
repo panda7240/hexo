@@ -1,6 +1,8 @@
 
 
 title: zookeeper 扩容实战
+categories: 分布式
+tags: zookeeper
 ---
 
 ## 场景描述:
