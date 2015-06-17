@@ -63,7 +63,7 @@ links:
   码农圈: https://coderq.com,一个面向程序员交流分享的新一代社区
 
 #### 评论
-duoshuo_shortname: 
+duoshuo_shortname: siye1982
 disqus_shortname:  
 
 #### 分享按钮
@@ -79,10 +79,10 @@ google_analytics:
   site:          ## 网站地址.
 baidu_tongji:
   enable: false
-  sitecode:      ## 百度统计站点特征码
+  sitecode: 72577fbd30b666f35278832dfaee0280      ## 百度统计站点特征码
 cnzz_tongji:
-  enable: false
-  siteid:        ## CNZZ统计站点ID
+  enable: true
+  siteid: 1255443286       ## CNZZ统计站点ID
 
 #### 杂项
 ShowCustomFont: true  
@@ -91,13 +91,13 @@ totop: true
 
 #### 自定义搜索
 google_cse: 
-  enable: false
-  cx:  
-baidu_search:    
   enable: true
-  id:   
-  site: http://zhannei.baidu.com/cse/search 
+  cx: "014646117278575712947:xe6pipn1zds"
+baidu_search:    
+  enable: false
+  id:  
+  site: 
 tinysou_search:     ## http://tinysou.com/
   enable: false
-  id: "4ac092ad8d749fdc6293"
+  id: "45fd0c747128c27ff6d3"
 
