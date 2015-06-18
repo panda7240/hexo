@@ -14,7 +14,7 @@ tags:
 
 ## 架构
 
-![imago架构图](http://siye1982.github.io/img/blog/imago-architecture.png)
+![imago架构图](http://siye1982.github.io/img/blog/imago/imago-architecture.png)
 
 Imago分为两部分：
 
@@ -82,15 +82,105 @@ Imago分为两部分：
   
 1. client第一次启动时, zookeeper就不可用, 则无法从中获取数据, 并生成文件快照和本地缓存.
 
+
+
 ## Imago-admin 功能说明
 
 
+### 首页
+
+![首页](http://siye1982.github.io/img/blog/imago/imago-index.png)
+
+1. 集中配置管理主要提供如下功能点:
+	* 应用管理
+	* 配置项管理(具体的配置项数据在该节点设置)
+	* 用户管理
+	* 资源管理(菜单和功能url的动态管理)
+	* 用户组管理(进行用户的分组功能,可以给用户组分配具体的功能权限和数据权限)
+	* 日志查看(终于数据的增删改的详细记录)
+
+2. 首页关系图可以查看某个ip上具体的pid引用了什么公共应用, 也可以查看哪些公共应用被什么程序引用了.
+
+### 应用管理
+
+![App管理](http://siye1982.github.io/img/blog/imago/imago-app-manage.png)
+
+1. 可以通过应用类型, 应用key, 应用value进行简单检索
+
+2. 点击应用key上的超链接, 将会进入该应用下的配置项列表.
+
+3. 在进行数据迁移时, 只需要将mysql数据进行迁移, 然后点击”同步全量数据到Zookeeper”按钮,会将mysql中所有数据同步到zookeeper节点上,如果已经有数据在zookeeper上,并且已经有程序watch了这些节点, 那么该操作将***会触发大量的watch操作***. 所有,该按钮建议只在初始化时使用.
+
+4. 可以针对某个应用进行配置项的导入, 导入文件可是遵循 *.properties属性文件格式.
+
+5. 可以将某个应用下的配置项导出为 *.properties属性文件.
+
+6. 可以只针对某个应用从mysql中同步数据到Zookeeper.
+
+7. 删除某个应用, 该操作是逻辑删除, 同时会逻辑删除该应用下所有的配置项, 同时也会物理删除zookeepr上对应的数据.
+
+![App新增,修改](http://siye1982.github.io/img/blog/imago/imago-app-update.png)
+
+进行应用的新增和修改时,需要设置应用的类型:
+
+* 公共应用
+
+	该类型的应用,会是多个项目中使用, 比如mysql,redis,kafka等配置放在公共应用中. 同时首页上会显示公共应用被哪些程序使用的关系图.
+
+* 普通应用
+
+	普通应用是区分公共应用而存在的, 一般应用下的独有的一下配置项放在普通应用下.
 
 
+### 配置项管理
+
+![配置项管理](http://siye1982.github.io/img/blog/imago/imago-config-manage.png) 
+
+1. 点击某个配置项Key上的链接,可以查看该配置项的所有历史版本.
+
+2. 可以针对配置项Key,Value进行简单检索.
+
+3. 配置项的添加功能, 只能通过具体的应用页面引导进来才能操作, 直接通过菜单上的配置项管理进入没有新增配置项功能按钮.
+
+![配置项新增,修改](http://siye1982.github.io/img/blog/imago/imago-config-update.png) 
+
+在进行配置项的新增或修改时, 需要注意配置项的value值有模板设定, 默认下是走的文本, 但是为了便于对一些公共资源的管理,加入了类似mysql,redis,kafka等配置项的模板.
+
+![获取配置代码](http://siye1982.github.io/img/blog/imago/imago-config-code.png) 
+
+每一个配置项后面都可以通过配置代码按钮获取到某一个配置项在各个语言中的配置代码.
+
+![获取配置项在zk中的数据](http://siye1982.github.io/img/blog/imago/imago-config-getzk.png) 
+
+可以通过该方法获取该配置项在zk中具体的数据, 不用再去zookeepr上通过命令行查询.
+
+![获取配置项在zk中的数据](http://siye1982.github.io/img/blog/imago/imago-config-version.png) 
+
+可以获取到某一配置项的所有版本变更记录, 并可以通过某一个版本进行恢复.
+
+
+### 资源管理(功能权限管理)
+
+![获取配置代码](http://siye1982.github.io/img/blog/imago/imago-resource-manage.png) 
+
+在用户组管理中我们可以进行资源管理,资源管理主要可以通过树形菜单配置来控制哪些用户组里面的用户可以操作哪些功能url.用户登录后看到的左侧菜单也是通过该功能进行动态配置.
+
+
+### 数据权限管理
+
+![获取配置代码](http://siye1982.github.io/img/blog/imago/imago-data-manage.png) 
+
+该功能可以配置哪些用户可以对哪些数据进行哪些操作,这里主要集中控制对app数据的控制. 如果涉及到公共应用的如果用户只有查询权限,那么他们会针对该公共应用下的配置项中的密码选项是不可见的. 这个数据操作权限由App延伸到配置项.
+
+### 日志管理
+
+![获取配置代码](http://siye1982.github.io/img/blog/imago/imago-log.png) 
+
+对系统中比较关键的数据操作都会进行详细的日志记录, 便于进行用户行为的跟踪.
 
 ## 部署
 
-### 初始化imago-admin
+### 初始化Imago-admin
 
 当首次启动imago-admin时需要初始化zookeeper中的数据库配置,进入到zookeeper命令行执行以下命令:
 ```
@@ -98,7 +188,7 @@ Imago分为两部分：
  create /imago/trade_public_mysql ""
  create /imago/trade_public_mysql/1.1 {"ip":"xxx.xxx.xxx.xxx","port":"3231","type":"master","dbs":[{"name":"xxx","user":"trade_user","pwd":"xxx"}]}
 ```
-## imago-java-client 配置说明
+### Imago-java-client 配置说明
 
 具体使用步骤总结如下:
 
