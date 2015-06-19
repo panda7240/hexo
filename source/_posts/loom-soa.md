@@ -1,12 +1,13 @@
-title: LOOM服务治理
+title: LOOM服务治理(未完) 
 date: 2015-06-18 20:53:38
 categories: 服务治理
 tags:
+- 原创
 - SOA
 - Java
-- zookeeper
-- finagle
-- zipkin
+- Zookeeper
+- Finagle
+- Zipkin
 ---
 
 ## 概述
@@ -17,6 +18,7 @@ tags:
 
 LOOM的大部分需求直接采用的阿里巴巴的服务治理框架—DUBBO, 这里向DUBBO的所有开发人员致敬, DUBBO的出现带动了SOA概念真正的落地, 相信国内很多互联网公司都在用DUBBO进行服务治理. LOOM里面关于RPC相关的工作,我们直接使用了Twitter的finagle-thrift, 它可以帮助我们非常简单的写出高性能的异步的thrift调用. 另外我们可以直接通过zipkin来进行异构语言之间的调用链信息的收集.
 
+<!--more-->
 
 ## loom服务治理需求
 
@@ -765,3 +767,10 @@ LOOM的大部分需求直接采用的阿里巴巴的服务治理框架—DUBBO, 
     
     解决办法:将commons-httpclient里面的包排除掉commons-codec解决问题.
     xxx
+
+
+
+
+
+
+<div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>

@@ -2,9 +2,10 @@ title: 集中配置管理(IMAGO)
 date: 2015-06-17 10:11:19
 categories: 分布式
 tags: 
+- 原创
 - 配置管理
 - Java
-- zookeeper
+- Zookeeper
 ---
 
 ## 概述
@@ -26,12 +27,13 @@ Imago分为两部分：
 
    上图中的箭头方向表示数据的流向. 当应用启动时, imago-client从Zookeeper获取相关配置项到本地, 并存储一份文件快照, 一份缓存快照, 应用直接从本地缓存中读取相关配置. 当Zookeeper中的配置项发生变动时, imago-client会监听到变动并更新本地文件快照和本地缓存. 在使用过程中如果Zookeeper不可用, 应用还可以从本地文件快照中获取配置进行启动. 应用始终都是从imago-client的本地缓存中获取缓存, 提高效率.
 
+<!--more-->
 
 ## 存储在Zookeeper中的数据结构
 
 1. 配置管理后台负责配置数据的维护，如增、删、改、查，配置数据存放于zookeeper节点之上，每个APP都有一个唯一的ID，如order的节点path为/imago/order，该节点下又可以有多个配置节点，如/imago/order/key1, /imago/order/key2… 管理后台必须校验节点PATH的唯一性.
 
-2. 应用可以有两种类型
+2. 应用可以有两种类型
 
 	(1). 公共应用, 该种应用会将一些公共资源的配置放在这种应用下面, 比如mysql的配置, redis的配置等, 这么做的目的是为了将来这些配置ip或者其他信息变更了,我们只需要修改一个地方.我们将来可以通过在imago-admin里面可以看到哪些应用引用了这些公共应用.
 	比如,和交易相关的公共配置统一放在appkey为trade_public目录下, 具体参考如下:
@@ -50,6 +52,8 @@ Imago分为两部分：
 3. imago-client主动删除了File Snapshot, Local cache.
 
 在上面2, 3都不可用时才会发生不可用的情况.这在生产环境中出现的几率是极小的.
+
+
 
 ## 测试用例
 
@@ -320,6 +324,7 @@ imago-java-client 版本变更列表
 
 
 
+<div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
 
 
 
@@ -360,7 +365,6 @@ imago-java-client 版本变更列表
 
 
 
-
 
 
 

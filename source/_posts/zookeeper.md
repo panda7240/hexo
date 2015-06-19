@@ -1,9 +1,11 @@
 
 
-title: zookeeper 扩容实战
+title: Zookeeper 扩容实战
 date: 2015-06-16 15:52:25
 categories: 分布式
-tags: zookeeper
+tags: 
+- 原创
+- Zookeeper
 ---
 
 ## 场景描述:
@@ -26,6 +28,7 @@ tags: zookeeper
 
 7. 在扩容过程中需要不影响使用现有zk集群的服务. 不可以全部停止, 进行升级.
 
+<!--more-->
 
 ## 需要注意的问题
 
@@ -106,8 +109,7 @@ tags: zookeeper
 
 
 
-
-
+<div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
 
 
 

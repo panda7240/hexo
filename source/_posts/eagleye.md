@@ -1,11 +1,12 @@
-title: EAGLEYE监控预警平台
+title: EAGLEYE监控预警平台(未完)
 date: 2015-06-18 22:20:11
 categories: 监控预警
 tags:
+- 原创
 - Elasticsearch
 - 监控
 - Java
-- logstash
+- Logstash
 ---
 
 
@@ -28,7 +29,7 @@ tags:
           * 日志统计
         
 
-
+<!--more-->
 
 ## 需求
 
@@ -856,3 +857,5 @@ tags:
 		2. 将 template模板 添加到 config/templates/ 目录
 
 
+
+<div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>

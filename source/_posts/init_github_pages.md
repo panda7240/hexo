@@ -1,7 +1,9 @@
 title: 用Hexo 快速创建Github Pages
 date: 2015-06-17 09:52:25
 categories: 随笔 	
-tags: Github blog
+tags:
+- 原创 
+- Github blog
 ---
 
 ## 具体步骤
@@ -14,12 +16,14 @@ tags: Github blog
 
 ### 如果想在自己的博客中添加分类和标签, 需要按照如下[Markdown](https://help.github.com/articles/markdown-basics)格式撰写博客.
 
-
-		title: zookeeper 扩容实战
-		categories: 分布式
-		tags: zookeeper
-		---
-
+```
+title: zookeeper 扩容实战
+categories: 分布式
+tags: zookeeper
+---
+```
+	
+<!--more-->
 
 ## Hexo 常用命令
 
@@ -56,7 +60,7 @@ $ hexo deploy
 More info: [Deployment](http://hexo.io/docs/deployment.html)
 
 
-
+<div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
 
 
 
