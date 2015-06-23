@@ -703,6 +703,45 @@ Caused by: org.xml.sax.SAXParseException; lineNumber: 39; columnNumber: 22; cvc-
     
   解决办法:将commons-httpclient里面的包排除掉commons-codec解决问题.
 
+
+
+## loom版本变更列表
+
+	1.2.1-SNAPSHOT
+	1. 统一方法调用统计信息格式为JSON格式
+	2. 修复统计信息中的bug
+    
+    1.2.0-SNAPSHOT
+    1. 增加每个方法的调用总次数,一分钟生产力, 平均调用时长的统计功能.
+    2. 增加消费者维度,调用远程thrift接口的时长统计, 并将超过200ms的调用打印warn日志,可以结合eagleye进行实时预警.
+    3. 增加服务提供者,每个api接口的调用时长统计, 并将超过200ms的调用打印warn日志,可以结合eagleye进行实时预警.
+    4. 给application节点增加owner属性, 可以简单标识应该的负责人, 同时可以在loom-admin中消费者维度看到每个消费者的负责人.
+    5. 在reference结点上添加owner属性(只是为了配合agent使用,直接只用loom的用户不需要关心).
+    6. 在消费者启动逻辑中添加是否是agent判断,如果为agent,则不管是否启动成功都进行注册(直接使用loom的用户不需要关系该细节)
+    7. 首页关系图展示, 添加直属关系检索
+    8. 增加服务端提供服务时,服务超时时间, 默认30秒
+        
+    1.1.6-SNAPSHOT
+    1. 修复loom:reference节点中timeout无效的bug
+    2. 修复loom服务端业务方法抛出异常,只显示InvocationTargetException,并没有详细信息的问题
+    
+    1.1.5-SNAPSHOT
+    1. 修复loom:service 的id不能使用el表达式的问题
+    
+    1.1.4-SNAPSHOT
+    1. 修复通过redis获取心跳时, 当redis不稳定时,不能自动回复的问题
+    
+    1.1.3
+    1. 修复服务调用时间过长抛出Unknown错误的问题
+    
+    1.1.2
+    1. 修复消费者调用服务方法时, 不能传递为null的参数.
+    
+    1.1.1
+    1. 应用kill时主动删除zookeeper上的providers下的节点, 提高其他watch该节点的响应.
+    2. 增加服务从启动开始成功调用的总次数和失败总次数.
+    3. 如果调用失败, 记录具体请求哪个provider请求失败.
+    4. 修复消费者列表,提供者列表详情×显示X的bug.
 ---
 
 
