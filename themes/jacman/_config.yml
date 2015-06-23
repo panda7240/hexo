@@ -17,8 +17,8 @@ rss: /atom.xml
 
 #### 图片相关
 imglogo:
-  enable: false               ## 是否显示网站 logo
-  src: img/logo.png        
+  enable: true               ## 是否显示网站 logo
+  src: img/author.jpg       
 favicon: img/favicon.ico     ## 网站图标    
 apple_icon: img/logo.jpg   ## 苹果设备上的图标，背景不要透明
 author_img: img/author.jpg   ## 网站底部的博主头像

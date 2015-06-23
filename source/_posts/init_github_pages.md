@@ -13,9 +13,9 @@ tags:
 ### 然后安装[Hexo](http://hexo.io/docs/index.html).
 
 ### 我选用[Jacman](http://wuchong.me/jacman/2014/11/20/how-to-use-jacman/#启用)主题.
+<!--more-->
 
 ### 如果想在自己的博客中添加分类和标签, 需要按照如下[Markdown](https://help.github.com/articles/markdown-basics)格式撰写博客.
-
 ```
 title: zookeeper 扩容实战
 categories: 分布式
@@ -23,7 +23,7 @@ tags: zookeeper
 ---
 ```
 	
-<!--more-->
+
 
 ## Hexo 常用命令
 
