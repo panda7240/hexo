@@ -1,4 +1,4 @@
-title: EAGLEYE监控预警平台(未完)
+title: EAGLEYE监控预警平台
 date: 2015-06-18 22:20:11
 categories: 监控预警
 tags:
@@ -22,9 +22,80 @@ tags:
 
 <!--more-->
 
-## 功能说明
+## 核心功能说明
+
+### 首页客户端感知
+
+![首页](http://siye1982.github.io/img/blog/eagleye/eagleye-index.png)
+
+所有接入eagleye-java-client的应用每分钟都会通过redis发送心跳数据, 这里面包括应用所在机器的IP, PID, 每分钟日志的生产力, 应用最近一次启动到现在日志总量.如果应用进程被kill,则首页上相应的节点会消失.
 
 
+
+### 应用管理
+
+![应用管理](http://siye1982.github.io/img/blog/eagleye/eagleye-app.png)
+
+在这里进行app管理, 应用在发送日志之前, 需要在log4j配置文件中配置应用的名称, eagleye最终会根据这个配置名称来匹配预警规则. 所以这里的名称需要在应用程序中的log4j配置中的名称一致.
+
+### 规则管理
+
+![规则管理](http://siye1982.github.io/img/blog/eagleye/eagleye-rule.png)
+
+我们可以通过预警管理设置具体的预警规则, 可以通过正则表达式来匹配日志中的内容, 提示中给出来比较常规的预警规则设置.
+
+### 预警设置
+
+![预警设置](http://siye1982.github.io/img/blog/eagleye/eagleye-alert.png)
+
+1. 针对某一个应用里面的某一个预警规则,我们可以设置给谁发送短信预警, 给谁发送邮件预警.
+
+2. 我们通过预警设置的管理将具体的应用和预警规则进行挂钩.
+
+
+### Zookeeper监控
+
+![ZK监控](http://siye1982.github.io/img/blog/eagleye/eagleye-zookeeper.png)
+
+这里我们借鉴了阿里巴巴的Taokeeper监控软件, 开发了部署更加方便的zookeeper监控, 可以针对每一个集群中的每一个zk实例进行每分钟自检, 如果超出我们设定的预警阈值, 则会进行实时报警.
+
+
+### 日志概览
+
+![日志概览](http://siye1982.github.io/img/blog/eagleye/eagleye-kibana.png)
+
+我们前期通过Kibana的简单统计页面可以了解各个应用日志的大致情况. 只需要简单的配置即可实现.
+
+
+### 日志检索
+
+![日志检索](http://siye1982.github.io/img/blog/eagleye/eagleye-logsearch.png)
+
+全量日志收集进来之后, 我们需要对它们进行精确检索. 这里我们提供了针对时间区间, IP, PID,线程ID, 应用名称, 日志关键字等的联合检索功能
+
+### 日志上下文
+
+![日志上下文](http://siye1982.github.io/img/blog/eagleye/eagleye-logcontext.png)
+
+有些时候我们只检索出满足条件的日志还不能帮助我们快速定位问题, 我们还需要查看日志的上下文, 那么我们可以双击某一条日志, 则可以查看该条日志的前200条和后200条日志.
+
+
+### ES监控
+
+![HEAD](http://siye1982.github.io/img/blog/eagleye/eagleye-eshead.png)
+
+可以查看ES集群中详细的Sharding信息.
+
+![BIGDESK](http://siye1982.github.io/img/blog/eagleye/eagleye-bigdesk.png)
+
+可以查看某一个ES实例所在机器的JVM, CPU, 内存等详情.
+
+
+### Zipkin监控
+
+![ZIPKIN](http://siye1982.github.io/img/blog/eagleye/eagleye-zipkin.png)
+
+可以根据服务名称查看具体的RPC调用链详情.
 
 ## 详细设计
 

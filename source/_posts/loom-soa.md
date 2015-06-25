@@ -525,7 +525,7 @@ loom-admin项目是loom中的子项目, 用来对注册中心中的服务提供�
 - Java提供服务, ruby开启zipkin功能,则无法调用成功, 关闭则可以调用成功.
 类似异常如下:
     ```
-    WARNING: Unhandled exception in connection with /172.16.11.55:27428 , shutting down connection
+    WARNING: Unhandled exception in connection with /192.168.1.12:12343 , shutting down connection
     java.lang.NoSuchMethodError: org.apache.commons.codec.binary.Base64.encodeAsString([B)Ljava/lang/String;
             at com.twitter.util.Base64StringEncoder$class.encode(StringEncoder.scala:17)
             at com.twitter.util.Base64StringEncoder$.encode(StringEncoder.scala:25)
