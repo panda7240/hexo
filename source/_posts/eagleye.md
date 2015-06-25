@@ -206,7 +206,7 @@ eagleye作为所有服务的日志监控预警平台, 需要收集所有后台�
 
   - 177吞吐量:2.32w条message/s
 
-  - 244的cpu使用如下图:http://siye1982.github.io/img/blog/eagleye
+  - 244的cpu使用如下图:
     ![cpu](http://siye1982.github.io/img/blog/eagleye/双机244cpu.png)
               
   - 244内存使用如下图:
