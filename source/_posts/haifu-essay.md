@@ -1,13 +1,13 @@
 layout: photo
 title: 糖果妈生产小记
 tags:
-  - 生活随笔
+  - 随笔
   - 海淀妇幼
   - 刨腹产
   - 双胞胎
 photos:
 date: 2014-08-25 09:43:33
-categories: 生活随笔
+categories: 随笔
 ---
 
 
