@@ -2,10 +2,11 @@
 
 title: Zookeeper 扩容实战
 date: 2015-06-16 15:52:25
-categories: 分布式
+categories: Zookeeper
 tags: 
 - 原创
 - Zookeeper
+- 分布式
 ---
 
 ## 场景描述:
