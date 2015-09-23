@@ -519,6 +519,21 @@ loom-admin项目是loom中的子项目, 用来对注册中心中的服务提供�
 ![方法耗时总览](http://siye1982.github.io/img/blog/loom/invokeTimeout.jpg)
     
 
+- 服务监控状况统计,可以查看所有服务里面具体方法最近十分钟的健康情况,并可以获取服务中各个方法的历史调用情况
+
+    ![服务健康状况统计](http://siye1982.github.io/img/blog/loom/service_statistics.png)
+    
+- 某个应用实例日志检索
+    ![loom日志](http://siye1982.github.io/img/blog/loom/loom_log.png)
+    ![loom日志检索](http://siye1982.github.io/img/blog/loom/es_search_log.png)
+
+- 提供获取某个服务的某个方法的历史调用曲线(精确到每分钟的成功,失败次数)
+    ![loom调用](http://siye1982.github.io/img/blog/loom/loom_invoke.png)
+    ![loom调用历史](http://siye1982.github.io/img/blog/loom/loom_invoke_history.png)
+
+- 收集Loom产生的RPC调用链信息,并给Loom提供该信息检索(双击某行有问题的Span记录可以查看某次调用链详情,了解具体的网络情况和业务执行情况)
+    ![rpc的span信息](http://siye1982.github.io/img/blog/loom/rpc_span.png)
+    ![rpc调用链详情](http://siye1982.github.io/img/blog/loom/rpc_link.png)
 
 ## loom常见问题汇总
 
@@ -748,3 +763,4 @@ Caused by: org.xml.sax.SAXParseException; lineNumber: 39; columnNumber: 22; cvc-
 文章题图: 来自冒险岛数据库系统
 
 <div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
+

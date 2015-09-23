@@ -18,14 +18,10 @@ categories: Elasticsearch
 
 1. [Head](https://github.com/mobz/elasticsearch-head)
 	查看分片情况,操作简单api
-	
-
 2. [Bigdesk](https://github.com/lukas-vlcek/bigdesk)
    监控所在机器的CPU,IO,JVM等指标,简单分片概览
-
 3. [KOPF](https://github.com/lmenezes/elasticsearch-kopf) 
    查看集群gc回收磁盘性能, 分片情况, 简单操作api, 感觉该插件较Head更实用一些
-   
 4. [Sql](https://github.com/NLPchina/elasticsearch-sql)
 	可以通过sql进行聚合检索, 可以将sql语句翻译成ES的JSON检索语句
 	
@@ -44,7 +40,6 @@ categories: Elasticsearch
 		} 
 	}'
 	```
-	
 2. **优雅停止你要升级或检测的ES实例(不到万不得已,绝对不要用Kill -9)**
 
 	```
@@ -52,9 +47,7 @@ categories: Elasticsearch
 	```
 
 3. **升级重启该节点，并确认该节点重新加入到了集群中**
-
 4. **重复上面的2,3步，操作其他集群内其他ES实例**
-
 5. **重新启动集群的分片自动均衡(在集群中任一ES实例中执行一次即可)**
 
 	```
@@ -281,14 +274,12 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 	#可用批量删除名字以xxx-log-2015.06开头的索引
 	curl -XDELETE http://127.0.0.1:9201/xxx-log-2015.06*
 	```
-	
 2. **保证最大限度的使用内存而不引起OutOfMemory**
 	设置es的缓存类型为Soft Reference，它的主要特点是据有较强的引用功能。只有当内存不够的时候，才进行回收这类内存，因此在内存足够的时候，它们通常不被回收。另外，这些引 用对象还能保证在Java抛出OutOfMemory 异常之前，被设置为null。它可以用于实现一些常用图片的缓存，实现Cache的功能.在es的配置文件中做如下修改:
 
 	```
 	index.cache.field.type: soft
 	```
-	
 3. **通过修改Template,缩小索引大小**
 	在ES的Template中做如下调整
 	
@@ -300,12 +291,8 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 	    "type": "string"
 	 },
 	```
-
-	
 4. **加快调整分片和副本时的恢复进度**
 	副本配置和分片配置不一样，是可以随时调整的。有些较大的索引，甚至可以在做 optimize 前，先把副本全部取消掉，等 optimize 完后，再重新开启副本，节约单个 segment 的重复归并消耗。
-	
-
 5. **ES的版本升级非常平滑,向前兼容做的不错**	
 	
 	
