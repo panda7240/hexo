@@ -474,7 +474,19 @@ name值必须是 loom:reference节点的id。尖括号里面是要调用的服�
 	
 - 记录某个服务提供者方法的每分钟的评价调用时长
   我们在spring配置文件中又一个service结点,其中的ref属性中的业务逻辑实现类.在该类中的方法上添加@InvokeTimeTrace 则loom可以和eagleye配合收集该方法每分钟的调用次数,平均时长等.
-	
+  
+  
+- 在任意一次RPC调用过程中添加附加信息到调用链中
+	使用场景: 如果服务A 调用了服务B, 这个时候B作为服务提供者出现了一些问题(也可以传递一些普通非异常的附加信息), 我需要将该异常作为附属信息添加到调用链中.
+	那么就可以在B的业务逻辑中添加如下代码.
+	   
+	```
+	// 记录异常信息
+	com.xxx.loom.zipkin.Trace.recordFault("creatOrder", "NullPointException ...");
+	   
+	// 记录普通附加信息(也可以通过该方法记录异常信息)
+	com.xxx.loom.zipkin.Trace.recordBinary("testBinary", "hello Binary, test b");
+	```
 
 	
 ## loom-admin使用说明
