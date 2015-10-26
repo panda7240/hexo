@@ -294,14 +294,18 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 	```
 	index.cache.field.type: soft
 	```
-3. **通过修改Template,缩小索引大小**
+3. **通过修改Template,缩小索引大小,减小系统内存使用**
 	在ES的Template中做如下调整
 	
 	```
-	"_all" : { "enabled" : false }, //可以减小索引数量
+	"_source": {'enabled': false}, //如果不需要展示一些字段信息,只是用统计功能, 可以直接关闭
+	"_all" : { "enabled" : false }, //不对所有字段进行自动索引,可以减小索引数量
 	"pid": {
         //not_analyzed可以不分词, no:不索引, 去除index则会根据分词器进行分词并索引
 	   	"index": "not_analyzed",
+	   	"store": "false", //如果不需要存储, 不需要显示, 可以直接关闭
+	   	//设置了doc_values之后，字段创建时，就是用磁盘存储fielddata而不是内存中
+	   	"doc_values": true
 	    "type": "string"
 	 },
 	```
@@ -336,6 +340,11 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 	indices.fielddata.cache.size:  20% 
 	```
 	
+8. **查看集群健康状况的命令**
+
+	```
+	curl -s localhost:9201/_cat/indices?v | sort -k3  | more
+	```
 
 <div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
 
