@@ -348,3 +348,15 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 
 <div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
 
+9. **减小es集群脑裂的配置优化**
+	* master尽量不作为data节点
+	* discovery.zen.ping_timeout（默认值是3秒）修改,默认情况下，一个节点会认为，如果master节点在3秒之内没有应答，那么这个节点就是死掉了，而增加这个值，会增加节点等待响应的时间，从一定程度上会减少误判。
+	* discovery.zen.minimum_master_nodes（默认是1）：这个参数控制的是，一个节点需要看到的具有master节点资格的最小数量，然后才能在集群中做操作。官方的推荐值是(N/2)+1，其中N是具有master资格的节点的数量（我们的情况是3，因此这个参数设置为2，但对于只有2个节点的情况，设置为2就有些问题了，一个节点DOWN掉后，你肯定连不上2台服务器了，这点需要注意）。
+	* 加快master发现的速度,可以将data节点的默认的master发现方式有multicast修改为unicast,并指定具体的master地址
+		
+		```
+		discovery.zen.ping.multicast.enabled: false
+		discovery.zen.ping.unicast.hosts: ["master1", "master2", "master3"]  
+		```
+
+
