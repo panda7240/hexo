@@ -58,7 +58,7 @@ categories: Elasticsearch
 		} 
 	}'
 	```
-
+备注: **如果在集群中关闭自动均衡, 业务程序在插入数据时,不会自动创建索引, 需要预先创建好索引**
 
 ## ES集群JVM调优积累
 
@@ -250,13 +250,15 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
     #这是批量插入时需要做的配置
      bulk:
         type: fixed
-        size: 100
+        # 设置的和cpu数量一致
+        size: 24
         queue_size: 10000
 
     #检索时需要做的配置
     search:
         tyep: fixed
-        size: 100
+        # 设置的和cpu数量一致
+        size: 24
         queue_size: 10000
 	```
 	整个数据将会被处理它的节点载入内存中，所以如果请求量很大的话，留给其他请求的内存空间将会很少。bulk应该有一个最佳的限度。超过这个限制后，性能不但不会提升反而可能会造成宕机。
@@ -358,5 +360,7 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 		discovery.zen.ping.multicast.enabled: false
 		discovery.zen.ping.unicast.hosts: ["master1", "master2", "master3"]  
 		```
+
+
 
 
