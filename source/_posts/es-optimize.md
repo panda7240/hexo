@@ -282,6 +282,26 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 	cluster.routing.allocation.awareness.attributes: group
 	```
 	
+3. **java客户端可以检索句子的方法**
+	之前因为存储的内容是中英文混合的, 所以分词的时候采用最小力度分词, 这样如果要检索句子的时候, 不知道为什么, 检索不出来, 最后使用了, 如下方式可以直接检索句子了:
+	
+```
+BoolFilterBuilder bqb = FilterBuilders.boolFilter();
+if(vo.getQueryStr() != null && !vo.getQueryStr().trim().equals("")){
+           bqb.must(
+                   FilterBuilders.queryFilter(
+                           QueryBuilders.queryStringQuery( ESReservedCharsUtil.removeReservedChars(vo.getQueryStr())  ).defaultField("body").defaultOperator(QueryStringQueryBuilder.Operator.AND)
+                   ).cache(true)
+           );
+// 该种方式不能检索句子
+//                for(String _s : vo.getQueryStr().split("\\s+")) {
+//                    bqb.must(FilterBuilders.termFilter("body", _s));
+//                }
+       }
+``` 
+	
+----
+	
 ## 其他
 
 1. **批量删除索引**	
@@ -306,7 +326,7 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
         //not_analyzed可以不分词, no:不索引, 去除index则会根据分词器进行分词并索引
 	   	"index": "not_analyzed",
 	   	"store": "false", //如果不需要存储, 不需要显示, 可以直接关闭
-	   	//设置了doc_values之后，字段创建时，就是用磁盘存储fielddata而不是内存中
+	   	//设置了doc_values为true之后，字段创建时，就是用磁盘存储fielddata而不是内存中, fielddata在lucene中就是正排索引, 可以非常快速的帮助我们做数据聚合,排序使用, 倒排索引帮助我们快速检索. 正常如果doc_values为false, 正排索引是放在内存中, 比较消化内存资源. 如果设为true则会放在磁盘中.另外,有一个设置 indices.fielddata.cache.expire 可以设置fielddata 进入内存中的数据多久自动过期。注意，因为 ES 的 fielddata 本身是一种数据结构，而不是简单的缓存，所以过期删除 fielddata 是一个非常消耗资源的操作。ES 官方在文档中特意说明，这个参数绝对绝对不要设置！
 	   	"doc_values": true
 	    "type": "string"
 	 },
