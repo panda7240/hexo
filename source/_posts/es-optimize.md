@@ -283,24 +283,23 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 	```
 	
 3. **java客户端可以检索句子的方法**
+
 	之前因为存储的内容是中英文混合的, 所以分词的时候采用最小力度分词, 这样如果要检索句子的时候, 不知道为什么, 检索不出来, 最后使用了, 如下方式可以直接检索句子了:
 	
 ```
 BoolFilterBuilder bqb = FilterBuilders.boolFilter();
-if(vo.getQueryStr() != null && !vo.getQueryStr().trim().equals("")){
-           bqb.must(
-                   FilterBuilders.queryFilter(
-                           QueryBuilders.queryStringQuery( ESReservedCharsUtil.removeReservedChars(vo.getQueryStr())  ).defaultField("body").defaultOperator(QueryStringQueryBuilder.Operator.AND)
-                   ).cache(true)
-           );
+if(vo.getQueryStr() != null && !vo.getQueryStr().trim().equals("")){    
+bqb.must(FilterBuilders.queryFilter(QueryBuilders.queryStringQuery( 
+ESReservedCharsUtil.removeReservedChars(vo.getQueryStr())).defaultField("body").defaultOperator(QueryStringQueryBuilder.Operator.AND)).cache(true));
 // 该种方式不能检索句子
-//                for(String _s : vo.getQueryStr().split("\\s+")) {
-//                    bqb.must(FilterBuilders.termFilter("body", _s));
-//                }
-       }
-``` 
+// for(String _s : vo.getQueryStr().split("\\s+")) {
+//     bqb.must(FilterBuilders.termFilter("body", _s));
+// }
+}
+```
 	
 ----
+
 	
 ## 其他
 
