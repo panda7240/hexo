@@ -332,7 +332,7 @@ ESReservedCharsUtil.removeReservedChars(vo.getQueryStr())).defaultField("body").
 	```
 4. **加快调整分片和副本时的恢复进度**
 	副本配置和分片配置不一样，是可以随时调整的。有些较大的索引，甚至可以在做 optimize 前，先把副本全部取消掉，等 optimize 完后，再重新开启副本，节约单个 segment 的重复归并消耗。
-5. **ES的版本升级非常平滑,向前兼容做的不错**	
+5. **ES 1.X 的版本升级非常平滑,向前兼容做的不错, 但是 从 1.x到2.x会有一些改动**	
 6. **index设置合理的刷新时间**
 	建立的索引，不会立马查到，这是为什么elasticsearch为near-real-time的原因
 需要配置index.refresh_interval参数，默认是1s。在template中设置如下:
