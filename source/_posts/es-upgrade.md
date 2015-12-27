@@ -93,6 +93,8 @@ categories: Elasticsearch
 * 复制原集群的索引元数据到新集群中(重要)
 	元数据在master节点的data目录下, 将该目录下的所有元数据copy到新版本集群中相应位置即可
 	
+* 2.1.1版本已经将config目录下的index template移除, **如果是新建索引在原先config/template下的索引模板将不起作用**, 如果需要给某个索引配置模板可以参考[官方文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-templates.html#indices-templates)
+
 * 关闭自动分片
 
 	```
@@ -165,6 +167,10 @@ categories: Elasticsearch
 	* 查询代码需要将所有Filter变更为Query
 	* 2.1.1版本中tribe节点无法加入集群中,具体看[Github上针对这个问题的issue](https://github.com/elastic/elasticsearch/issues/15373)
 
+	
+	
 
+
+	
 <div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
 
