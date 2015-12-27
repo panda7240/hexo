@@ -2,8 +2,6 @@ layout: photo
 title: FLO集中调度系统
 tags: 
   - 原创
-  - quartz
-  - 分布式
   - 调度系统
 photos:
   - http://siye1982.github.io/img/blog/flo/flo.jpg

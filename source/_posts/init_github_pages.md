@@ -4,6 +4,7 @@ categories: 随笔
 tags:
 - 原创 
 - Github blog
+- Hexo
 ---
 
 ## 具体步骤
@@ -59,6 +60,27 @@ $ hexo deploy
 
 More info: [Deployment](http://hexo.io/docs/deployment.html)
 
+### 查看help
+
+```
+$ hexo help
+```
+
+### 清理缓存
+
+```
+$ hexo clean
+```
+
+## 问题
+
+* 出现 `multiple stage entries for merged file` 执行如下命令
+
+	```
+	$ rm -rf hexo/.deploy_git/.git/index
+	$ hexo generate
+	$ hexo deploy
+	```
 
 <div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
 

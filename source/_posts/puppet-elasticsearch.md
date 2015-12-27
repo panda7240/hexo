@@ -1,12 +1,11 @@
 layout: photo
-title: puppet-elasticsearch
+title: puppet-elasticsearch(未完...)
 tags:
-  - xxx
+  - Elasticsearch
 photos:
-  - xxx
-  - xxx
 date: 2015-12-25 16:23:32
 categories:
+  - Elasticsearch
 ---
 
 
