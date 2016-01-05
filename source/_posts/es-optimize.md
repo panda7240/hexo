@@ -16,13 +16,13 @@ categories: Elasticsearch
 
 ## 常用插件
 
-1. [Head](https://github.com/mobz/elasticsearch-head)
+* [Head](https://github.com/mobz/elasticsearch-head)
 	查看分片情况,操作简单api
-2. [Bigdesk](https://github.com/lukas-vlcek/bigdesk)
+* [Bigdesk](https://github.com/lukas-vlcek/bigdesk)
    监控所在机器的CPU,IO,JVM等指标,简单分片概览
-3. [KOPF](https://github.com/lmenezes/elasticsearch-kopf) 
+* [KOPF](https://github.com/lmenezes/elasticsearch-kopf) 
    查看集群gc回收磁盘性能, 分片情况, 简单操作api, 感觉该插件较Head更实用一些
-4. [Sql](https://github.com/NLPchina/elasticsearch-sql)
+* [Sql](https://github.com/NLPchina/elasticsearch-sql)
 	可以通过sql进行聚合检索, 可以将sql语句翻译成ES的JSON检索语句
 	
 	
@@ -30,7 +30,7 @@ categories: Elasticsearch
 
 在一开始使用ES的时候, 都是通过 `kill <pid>` (不是Kill -9)来关闭ES实例. 但是每回重启后, 都会发现有很长时间的分片同步(即使没有手动删除数据等操作). 后来发现ES默认是开启自动分片均衡的. 那么如果想要我们在停止,启动某个ES实例后, 可以快速将集群状态变更为Green. 我们最好可以采用如下步骤进行:
 
-1. **暂停集群的分片自动均衡(在集群中任一台ES实例上执行都可以,只需要执行一次)**
+* **暂停集群的分片自动均衡(在集群中任一台ES实例上执行都可以,只需要执行一次)**
 
 	```
 	curl -XPUT http://127.0.0.1:9200/_cluster/settings -d' 
@@ -40,15 +40,21 @@ categories: Elasticsearch
 		} 
 	}'
 	```
-2. **优雅停止你要升级或检测的ES实例(不到万不得已,绝对不要用Kill -9)**
+* **优雅停止你要升级或检测的ES实例(不到万不得已,绝对不要用Kill -9)**
 
 	```
 	curl -XPOST http://127.0.0.1:9200/_cluster/nodes/_local/_shutdown
 	```
 
-3. **升级重启该节点，并确认该节点重新加入到了集群中**
-4. **重复上面的2,3步，操作其他集群内其他ES实例**
-5. **重新启动集群的分片自动均衡(在集群中任一ES实例中执行一次即可)**
+	备注: 在2.0版本之后将废弃该api
+	
+	```
+	The _shutdown API has been removed without a replacement. Nodes should be managed via the operating system and the provided start/stop scripts.
+	```
+	
+* **升级重启该节点，并确认该节点重新加入到了集群中**
+* **重复上面的2,3步，操作其他集群内其他ES实例**
+* **重新启动集群的分片自动均衡(在集群中任一ES实例中执行一次即可)**
 
 	```
 	curl -XPUT http://127.0.0.1:9200/_cluster/settings -d' 
@@ -241,7 +247,7 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 
 ## ES使用中碰到的问题
 
-1. **rejected execution (queue capacity 50) on org.elasticsearch.action.support.replication.TransportShar** 
+* **rejected execution (queue capacity 50) on org.elasticsearch.action.support.replication.TransportShar** 
 
 	该问题需要在配置文件中添加Thread pool参数.
 	
@@ -267,7 +273,7 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 
 	试着去批量索引越来越多的文档。当性能开始下降的时候，就说明你的数据量太大了。一般比较好初始数量级是1000到5000个文档，或者你的文档很大，你就可以试着减小队列。 有的时候看看批量请求的物理大小是很有帮助的。1000个1KB的文档和1000个1MB的文档的差距将会是天差地别的。比较好的初始批量容量是5-15MB。
 
-2. **同一天机器上不同的es实例, 同一个索引的主副分片被分在了同一台机器上**  
+* **同一天机器上不同的es实例, 同一个索引的主副分片被分在了同一台机器上**  
 	
 	在构建es集群的前期, 机器数量比较少, 但是机器配置还不错,可能会在一个机器上挂好几个硬盘, 开启多个es实例. 这样少量的机器,可以创建超过机器数量的es实例, 充分利用集群硬件性能,同时也具备更好的可拓展性. 
 	
@@ -282,7 +288,7 @@ discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 	cluster.routing.allocation.awareness.attributes: group
 	```
 	
-3. **java客户端可以检索句子的方法**
+* **java客户端可以检索句子的方法**
 
 	之前因为存储的内容是中英文混合的, 所以分词的时候采用最小力度分词, 这样如果要检索句子的时候, 不知道为什么, 检索不出来, 最后使用了, 如下方式可以直接检索句子了:
 	
@@ -303,19 +309,19 @@ ESReservedCharsUtil.removeReservedChars(vo.getQueryStr())).defaultField("body").
 	
 ## 其他
 
-1. **批量删除索引**	
+* **批量删除索引**	
 	
 	```
 	#可用批量删除名字以xxx-log-2015.06开头的索引
 	curl -XDELETE http://127.0.0.1:9201/xxx-log-2015.06*
 	```
-2. **保证最大限度的使用内存而不引起OutOfMemory**
+* **保证最大限度的使用内存而不引起OutOfMemory**
 	设置es的缓存类型为Soft Reference，它的主要特点是据有较强的引用功能。只有当内存不够的时候，才进行回收这类内存，因此在内存足够的时候，它们通常不被回收。另外，这些引 用对象还能保证在Java抛出OutOfMemory 异常之前，被设置为null。它可以用于实现一些常用图片的缓存，实现Cache的功能.在es的配置文件中做如下修改:
 
 	```
 	index.cache.field.type: soft
 	```
-3. **通过修改Template,缩小索引大小,减小系统内存使用**
+* **通过修改Template,缩小索引大小,减小系统内存使用**
 	在ES的Template中做如下调整
 	
 	```
@@ -330,10 +336,11 @@ ESReservedCharsUtil.removeReservedChars(vo.getQueryStr())).defaultField("body").
 	    "type": "string"
 	 },
 	```
-4. **加快调整分片和副本时的恢复进度**
+* **加快调整分片和副本时的恢复进度**
 	副本配置和分片配置不一样，是可以随时调整的。有些较大的索引，甚至可以在做 optimize 前，先把副本全部取消掉，等 optimize 完后，再重新开启副本，节约单个 segment 的重复归并消耗。
-5. **ES 1.X 的版本升级非常平滑,向前兼容做的不错, 但是 从 1.x到2.x会有一些改动**	
-6. **index设置合理的刷新时间**
+
+* **ES 1.X 的版本升级非常平滑,向前兼容做的不错, 但是 从 1.x到2.x会有一些改动**	
+* **index设置合理的刷新时间**
 	建立的索引，不会立马查到，这是为什么elasticsearch为near-real-time的原因
 需要配置index.refresh_interval参数，默认是1s。在template中设置如下:
 
@@ -351,7 +358,7 @@ ESReservedCharsUtil.removeReservedChars(vo.getQueryStr())).defaultField("body").
         ... ...
 	```
 	
-7. **字段缓存(Field cache)设置**
+* **字段缓存(Field cache)设置**
 
 	当对字段排序或者对字段做聚合（如 facet ）时，字段缓存（ Field cache ）非常重要。 Es 会将这些待排序或者聚合字段都加载到内存，以提高对这些字段的快速访问。注意，将字段都加载到内存是非常耗费资源的，所以，你应该保证 field cache 足够大，以足以将所有的结果都缓存起来，下次排序或 facet 时不用再次从磁盘进行加载。
 	
@@ -361,15 +368,13 @@ ESReservedCharsUtil.removeReservedChars(vo.getQueryStr())).defaultField("body").
 	indices.fielddata.cache.size:  20% 
 	```
 	
-8. **查看集群健康状况的命令**
+* **查看集群健康状况的命令**
 
 	```
 	curl -s localhost:9201/_cat/indices?v | sort -k3  | more
 	```
 
-<div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
-
-9. **减小es集群脑裂的配置优化**
+* **减小es集群脑裂的配置优化**
 	* master尽量不作为data节点
 	* discovery.zen.ping_timeout（默认值是3秒）修改,默认情况下，一个节点会认为，如果master节点在3秒之内没有应答，那么这个节点就是死掉了，而增加这个值，会增加节点等待响应的时间，从一定程度上会减少误判。
 	* discovery.zen.minimum_master_nodes（默认是1）：这个参数控制的是，一个节点需要看到的具有master节点资格的最小数量，然后才能在集群中做操作。官方的推荐值是(N/2)+1，其中N是具有master资格的节点的数量（我们的情况是3，因此这个参数设置为2，但对于只有2个节点的情况，设置为2就有些问题了，一个节点DOWN掉后，你肯定连不上2台服务器了，这点需要注意）。
@@ -380,6 +385,41 @@ ESReservedCharsUtil.removeReservedChars(vo.getQueryStr())).defaultField("body").
 		discovery.zen.ping.unicast.hosts: ["master1", "master2", "master3"]  
 		```
 
+* **有次出现某些分片长期处于UNASSIGNED状态，我们就可以手动分配分片到指定节点上**
+	默认情况下只允许手动分配副本分片，所以如果是主分片故障，需要单独加一个allow_primary选项, 注意，如果是历史数据的话，请提前确认一下哪个节点上保留有这个分片的实际目录，且目录大小最大。然后手动分配到这个节点上。以此减少数据丢失。(我们在测试环境发现有有一天早上六点有几个分片是UNASSIGNED状态, 采用下面的命令可以使集群重回green状态)：
+	  
+	  ```
+	  curl -XPOST 127.0.0.1:9200/_cluster/reroute -d '{
+		  "commands": [
+		    {
+		      "allocate": {
+		        "index": "eagleye_bigindex_2015.12.29",
+		        "shard": 1,
+		        "node": "eagleye_es_236",
+		        "allow_primary": true
+		      }
+		    }
+		  ]
+		}'
+	  ```
+	  
+* **因为负载过高，磁盘利用率过高，服务器下线，更换磁盘等原因，可以会需要从节点上移走部分分片**
+
+		```
+		curl -XPOST 127.0.0.1:9200/_cluster/reroute -d '{
+		  "commands": [
+		    {
+		      "move": {
+		        "index": "eagleye_bigindex_2015.12.29",
+		        "shard": 1,
+		        "from_node": "eagleye_es_235",
+		        "to_node": "eagleye_es_237"
+		      }
+		    }
+		  ]
+		}'
+		```
 
 
+<div style="margin-top: 15px; font-size: 11px;color: #cc0000;"><p align="center"><strong>（转载本站文章请注明作者和出处 <a href="http://siye1982.github.io">Panda</a>）</strong></p></div>
 
