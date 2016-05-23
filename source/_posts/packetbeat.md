@@ -26,6 +26,9 @@ categories: 全链路监控
 
 整个Beats项目都是用的Golang语言开发, Golang这几天也是现学现卖, 我在整个调试过程中没有找到可以比较方便进行Debug的方式, 只能通过fmt.Println进行各种调试信息的输出, 这个过程比较痛苦. 这里我顺便记录一下怎么配置Go的环境, 有几个概念比较懵,在此记录一下.
 
+## 安装GO
+在 [这里](https://golang.org/dl/) 获取对应的操作系统的GO安装bao
+
 ## GOPATH
 * 安装好Go后需要设置环境变量,如下:
 
@@ -34,8 +37,8 @@ categories: 全链路监控
 	export GOROOT=/usr/local/go
  	export GOBIN=$GOROOT/bin
  	
- 	# 这里可以理解为Go项目的工作空间, 这里允许有多个目录,注意用":"分割
- 	# 当有多个GOPATH时,执行 go get命令的内容默认会放在第一个目录下
+ 	#这里可以理解为Go项目的工作空间, 这里允许有多个目录,注意用":"分割
+ 	#当有多个GOPATH时,执行 go get命令的内容默认会放在第一个目录下
  	export GOPATH=/work/goworkspace
 	```
 
@@ -46,7 +49,6 @@ categories: 全链路监控
 
 	
 ## 获取项目
-
 
 ```
  #创建相应目录
