@@ -426,37 +426,41 @@ Scala源码看起来太费劲, 既然知道了原理, 为了可以解析出具�
 
 根据上面的分析逻辑,我就可以在Packetbeat中的messageParser方法中通过一些字节特征修正FrameSize和data的offset来把数据包变成原生的Thrift协议数据包, 具体代码如下:
 		
-	```
-	func (thrift *Thrift) messageParser(s *ThriftStream, dir uint8) (bool, bool) {
+```
+func (thrift *Thrift) messageParser(s *ThriftStream) (bool, bool) {
 		var ok, complete bool
 		var m = s.message
-		
-		dataStr := string(s.data)
-		//dataLen := len(s.data)
-		
-		
-		if (!strings.Contains(dataStr, "__can__finagle__trace__v3__")) {
-			if dir == uint8(1) {// client -> server
-				var thriftFlag []byte
-				thriftFlag,_ = hex.DecodeString("8001")
-				if bytes.Equal(s.data[133:135] , thriftFlag) {// 普通finagle
-					m.FrameSize = common.Bytes_Ntohl(s.data[:4]) - 129
-					s.parseOffset = 4 + 129
-				}else { // 附带zipkin
-					m.FrameSize = common.Bytes_Ntohl(s.data[:4]) - 129 - 4
-					s.parseOffset = 4 + 129 + 4
-					//fmt.Println("&&&&&&&&&&&&&&&&&&&&&&&&&& len: [", dataLen, "]  data: [", s.data, "] flag: [", s.data[137:139],"]")
+		for s.parseOffset < len(s.data) {
+			dataStr := string(s.data)
+			switch s.parseState {
+			case ThriftStartState:
+				m.start = s.parseOffset
+				if thrift.TransportType == ThriftTFramed {
+					if len(s.data) < 4 {
+						return true, false
+					}
+					frameSize := common.Bytes_Ntohl(s.data[:4])
+					m.FrameSize = frameSize
+					s.parseOffset = 4
+					
+					if (!strings.Contains(dataStr, "__can__finagle__trace__v3__")) {
+						var thriftFlagIndex1 int = bytes.LastIndex(s.data, thriftFlag1)
+						if thriftFlagIndex1> -1 {// 如果标识为80010001 那么代表是client->server
+							// client -> server
+							m.FrameSize = common.Bytes_Ntohl(s.data[:4]) - uint32(thriftFlagIndex1) - 4  // 从8001位置之后开始
+							s.parseOffset = thriftFlagIndex1// 从8001位置开始(包括8001位置)
+						}else{//如果没有标识为80010001, 那么应该有标识位80010002, 那么代表是server->client
+							// finagle 返回值
+							if bytes.LastIndex(s.data, thriftFlag2)==5 {
+								m.FrameSize = frameSize - 1
+								s.parseOffset = 4 + 1
+							}
+						}
+					}
 				}
-		
-			}else { // server -> client
-				m.FrameSize = common.Bytes_Ntohl(s.data[:4]) - 1
-				s.parseOffset = 4 + 1
-			}
-		}
-		
 		... ...
-	}
-	```
+}
+```
 
 # 参考
 

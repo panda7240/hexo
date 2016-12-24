@@ -31,6 +31,9 @@ shutdown -r now
 # 查看系统内核信息
 uname -a
 
+# 查看系统内核版本
+cat /proc/version
+
 # 查看当前用户环境变量
 env
 
@@ -146,6 +149,12 @@ ifconfig em1  192.168.5.177 netmask 255.255.255.0
 ```
 # 也可以去 cd /proc 目录下, 查看进程内存中加载的东西
 ps eww -p  XXXXX(进程号) 
+```
+
+## 查看进程树找到服务器进程
+
+```
+ps auwxf
 ```
 
 ## 查看进程启动路径
@@ -549,6 +558,41 @@ netstat -n|grep TIME_WAIT|awk '{print $5}'|sort|uniq -c|sort -rn|head -n20
 
 
 # 监控linux性能命令
+
+## top
+
+```
+按大写的 F 或 O 键，然后按 a-z 可以将进程按照相应的列进行排序, 然后回车。而大写的 R 键可以将当前的排序倒转
+```
+列名    	| 含义
+------- | -------
+PID     | 进程id
+PPID    | 父进程id
+RUSER   | Real user name
+UID     | 进程所有者的用户id
+USER    | 进程所有者的用户名
+GROUP   | 进程所有者的组名
+TTY     | 启动进程的终端名。不是从终端启动的进程则显示为 ?
+PR      | 优先级
+NI      | nice值。负值表示高优先级，正值表示低优先级
+P       | 最后使用的CPU，仅在多CPU环境下有意义
+%CPU    | 上次更新到现在的CPU时间占用百分比
+TIME    | 进程使用的CPU时间总计，单位秒
+TIME+   | 进程使用的CPU时间总计，单位1/100秒
+%MEM    | 进程使用的物理内存百分比
+VIRT    | 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES
+SWAP    | 进程使用的虚拟内存中，被换出的大小，单位kb。
+RES     | 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA
+CODE    | 可执行代码占用的物理内存大小，单位kb
+DATA    | 可执行代码以外的部分(数据段+栈)占用的物理内存大小，单位kb
+SHR     | 共享内存大小，单位kb
+nFLT    | 页面错误次数
+nDRT    | 最后一次写入到现在，被修改过的页面数。
+S       | 进程状态。D=不可中断的睡眠状态,R=运行,S=睡眠,T=跟踪/停止,Z=僵尸进程
+COMMAND | 命令名/命令行
+WCHAN   | 若该进程在睡眠，则显示睡眠中的系统函数名
+Flags   | 任务标志，参考 sched.h
+
 ## dmesg,查看系统日志
 
 ```
