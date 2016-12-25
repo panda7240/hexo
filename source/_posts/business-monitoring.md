@@ -53,6 +53,7 @@ categories: 监控预警
 
 ## 业务大盘
 ![业务大盘](http://siye1982.github.io/img/blog/digger/digger_business_panel.png)
+在基础监控平台(比如:Cat, Falcon)中, 我们是可以看到各自服务的QPS, TP99, JVM, CPU等基础监控指标. 针对核心业务流程中的业务状态的监控, 每个业务服务的监控需求各不相同, 有的业务需要很多维度的监控, 需要一些定制功能
 
 ## 事件监控
 ![事件监控](http://siye1982.github.io/img/blog/digger/digger_event_panel.png)
