@@ -15,7 +15,7 @@ categories: 监控预警
 <!--more-->
 发现问题原因之后我们需要解决问题, 最终目的是可以基于我们分析的结果给运维动作做出决策, 以达到自动化运维的目的. 另外, 明确系统用户将有助于把控业务监控产品的设计方向, 业务监控系统的第一用户是RD, 不是老板, 我们是要帮助RD更快的发现问题, 预知问题, 提供标准化解决问题的建议.
 
-# 概要设计
+# 系统设计
 ## 数据模型
 ![数据模型](http://siye1982.github.io/img/blog/digger/data_model.png)
 
@@ -41,8 +41,32 @@ categories: 监控预警
 ## 系统结构
 ![系统结构](http://siye1982.github.io/img/blog/digger/digger_structure.png)
 
+1. Digger-client: 业务监控系统首先需要有一个足够轻量的client用来帮助业务服务低成本的进行业务状态数据的埋点收集.
+2. Digger-collector: 对已有的基础监控系统产生的数据进行收集, 这其中需要兼容各种数据收集接口,同时对于一些特殊的系统, 还需要暴露自己的http服务, 以便其他系统通过回调http接口的方式收集监控数据.
+3. Digger-processor: 该组件主要是针对收集上来的各种类型的数据定时的进行统计分析, 并将结果数据以日志的方式回写到Elasticsearch中.
+4. Digger-admin: 该组件主要是暴露给Digger业务监控的用户管理界面, 在这里面可以定制自己的监控图表,对自己关系的服务进行监控检查等. 关于核心业务监控产品都将在该组件中体现.
+
 现有报警数据种类繁多, 每天产生的数量庞大, 这其中有相当一部分数据是因为阈值设定不合理而引起的误报而是会降低报警的实用性, 我们需要实时收集这些报警事件并做二次统计分析, 报警事件由多种方式发出, 所以需要有独立的collector组件负责收集这些事件, 后续其他类型业务数据的收集也可以通过collector完成.由于异常数据, 业务数据, 事件数据都有各自的结构, 为了简化日志格式化处理过程, 我们需要封装一个client来做这个事情, 尽量使日志格式化的动作对业务方透明.
-# 预测报警
+
+
+# 核心产品功能
+
+## 业务大盘
+![业务大盘](http://siye1982.github.io/img/blog/digger/digger_business_panel.png)
+
+## 事件监控
+![事件监控](http://siye1982.github.io/img/blog/digger/digger_event_panel.png)
+
+## 健康检查
+![健康检查](http://siye1982.github.io/img/blog/digger/digger_health_panel.png)
+
+## 预测报警
+
+
+## 监控收藏
+![监控收藏](http://siye1982.github.io/img/blog/digger/digger_favorite.png)
+
+## 降级限流管理
 
 # 碰到的问题
 
